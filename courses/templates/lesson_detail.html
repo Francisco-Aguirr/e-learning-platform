@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>{{ lesson.title }}</h2>
+
+<p>{{ lesson.content }}</p>
+
+<p><strong>Course:</strong> {{ lesson.course.title }}</p>
+
+<a href="/courses/{{ lesson.course.id }}/">Back to Course</a>
+
+{% endblock %}

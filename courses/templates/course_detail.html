@@ -1,34 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ course.title }}</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h1>{{ course.title }}</h1>
+{% block content %}
+
+<h2>{{ course.title }}</h2>
 
 <p>{{ course.description }}</p>
-
 <p><strong>Instructor:</strong> {{ course.instructor }}</p>
 
-<h2>Lessons</h2>
+<h3>Lessons</h3>
+
+<ol>
+    {% for lesson in lessons %}
+        <li>
+            <a href="/courses/lesson/{{ lesson.id }}/">
+                {{ lesson.title }}
+            </a>
+        </li>
+    {% empty %}
+        <p>No lessons available.</p>
+    {% endfor %}
+</ol>
+
+<h3>Enroll in this course</h3>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enroll</button>
+</form>
+
+<h3>Enrolled Students</h3>
 
 <ul>
-    {% for lesson in course.lessons.all %}
-        <li>{{ lesson.title }}</li>
+    {% for enrollment in enrollments %}
+        <li>{{ enrollment.student_name }}</li>
     {% empty %}
-        <p>No lessons available for this course.</p>
+        <p>No students enrolled yet.</p>
     {% endfor %}
 </ul>
 
-<h2>Enroll in this course</h2>
-
-    <form method="POST">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">Enroll</button>
-    </form>
-
 <a href="/courses/">Back to courses</a>
 
-</body>
-</html>
+{% endblock %}
