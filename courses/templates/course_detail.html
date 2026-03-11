@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ course.title }}</title>
+</head>
+<body>
+
+<h1>{{ course.title }}</h1>
+
+<p>{{ course.description }}</p>
+
+<p><strong>Instructor:</strong> {{ course.instructor }}</p>
+
+<h2>Lessons</h2>
+
+<ul>
+    {% for lesson in course.lessons.all %}
+        <li>{{ lesson.title }}</li>
+    {% empty %}
+        <p>No lessons available for this course.</p>
+    {% endfor %}
+</ul>
+
+<h2>Enroll in this course</h2>
+
+    <form method="POST">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Enroll</button>
+    </form>
+
+<a href="/courses/">Back to courses</a>
+
+</body>
+</html>
