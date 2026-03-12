@@ -14,6 +14,7 @@
             </h3>
             <p>{{ course.description }}</p>
             <p>Instructor: {{ course.instructor }}</p>
+            <p>Created: {{ course.created_at|date:"M d, Y" }}</p>
             <p>Students enrolled: {{ course.student_count }}</p>
         </li>
     {% empty %}

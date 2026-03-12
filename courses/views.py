@@ -5,7 +5,7 @@ from django.contrib import messages
 
 
 def course_list(request):
-    courses = Course.objects.all()
+    courses = Course.objects.order_by('-created_at')
 
     for course in courses:
         course.student_count = course.enrollment_set.count()
