@@ -1,74 +1,98 @@
 <!doctype html>
+<!-- aspcv201 -->
+ {% load static %}
 <html>
   <head>
     <title>Online Learning Platform</title>
-    <style>
+    <!-- <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background-color: #f5f5f5;
+      }
 
-body{
-    font-family: Arial, sans-serif;
-    margin:40px;
-    background-color:#f5f5f5;
-}
+      h1 {
+        color: #333;
+      }
 
-h1{
-    color:#333;
-}
+      nav {
+        margin-bottom: 20px;
+      }
 
-nav{
-    margin-bottom:20px;
-}
+      a {
+        color: #0066cc;
+        text-decoration: none;
+      }
 
-a{
-    color:#0066cc;
-    text-decoration:none;
-}
+      a:hover {
+        text-decoration: underline;
+      }
 
-a:hover{
-    text-decoration:underline;
-}
+      ul,
+      ol {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+      }
 
-ul,ol{
-    background:white;
-    padding:20px;
-    border-radius:8px;
-}
+      form {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
 
-form{
-    background:white;
-    padding:20px;
-    border-radius:8px;
-    margin-top:20px;
-}
+      button {
+        padding: 8px 14px;
+        background: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
 
-button{
-    padding:8px 14px;
-    background:#0066cc;
-    color:white;
-    border:none;
-    border-radius:4px;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#004999;
-}
-
-</style>
+      button:hover {
+        background: #004999;
+      }
+    </style> -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
   </head>
   <body>
+    
     <h1>Online Learning Platform</h1>
-<p>Browse courses and start learning today.</p>
-   <nav>
-    <a href="/courses/">All Courses</a>
-</nav>
+    <p>Browse courses and start learning today.</p>
+    <nav>
+      <a href="/courses/">Courses</a>
 
-    {% if messages %}
-    {% for message in messages %}
-        <div style="background:#d4edda;padding:10px;margin-bottom:15px;border-radius:5px;">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endif %}
+      {% if user.is_authenticated %}
+
+      <span>Welcome {{ user.username }}</span>
+
+      <form action="/logout/" method="post" style="display: inline">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
+
+      {% else %}
+
+      <a href="/login/">Login</a>
+      <a href="/register/">Register</a>
+
+      {% endif %}
+    </nav>
+
+    {% if messages %} {% for message in messages %}
+    <div
+      style="
+        background: #d4edda;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+      "
+    >
+      {{ message }}
+    </div>
+    {% endfor %} {% endif %}
 
     <hr />
 

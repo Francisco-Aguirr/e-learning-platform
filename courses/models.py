@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Course(models.Model):
@@ -22,10 +23,17 @@ class Lesson(models.Model):
 
 
 class Enrollment(models.Model):
-    student_name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrolled_at = models.DateTimeField(auto_now_add=True)
-    progress = models.IntegerField(default=0)
+    
 
     def __str__(self):
-        return f"{self.student_name} - {self.course.title}"
+        return f"{self.user.username} - {self.course.title}"
+    
+class LessonCompletion(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    lesson = models.ForeignKey('Lesson', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.lesson.title}"

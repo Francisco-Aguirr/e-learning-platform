@@ -1,0 +1,58 @@
+body{
+font-family: Arial, sans-serif;
+margin:0;
+background:#f4f6f9;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:40px;
+}
+
+nav{
+background:#222;
+color:white;
+padding:15px;
+}
+
+nav a{
+color:white;
+margin-right:15px;
+text-decoration:none;
+}
+
+button{
+background:#4CAF50;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:5px;
+cursor:pointer;
+}
+
+/* Añade esto a tu archivo CSS para efectos en los inputs */
+.form-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+    transform: translateY(-2px);
+}
+
+.form-group input:valid {
+    border-left: 4px solid var(--success-color);
+}
+
+.form-group input:invalid:not(:placeholder-shown) {
+    border-left: 4px solid var(--danger-color);
+}
+
+/* Animación para el botón */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+button[type="submit"]:hover {
+    animation: pulse 1s infinite;
+}

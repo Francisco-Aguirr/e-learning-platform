@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 
 {% block content %}
 
@@ -7,36 +7,49 @@
 <p>{{ course.description }}</p>
 <p><strong>Instructor:</strong> {{ course.instructor }}</p>
 
+<h3>Your Progress</h3>
+
+<div style="background:#ddd; width:100%; height:25px; border-radius:5px;">
+    
+    <div style="background:#4CAF50; height:25px; border-radius:5px; width: {{ progress }}%;">
+    </div>
+
+</div>
+
+<p>{{ progress }}% completed</p>
+
 <h3>Lessons</h3>
 
 <ol>
-    {% for lesson in lessons %}
-        <li>
-            <a href="/courses/lesson/{{ lesson.id }}/">
-                {{ lesson.title }}
-            </a>
-        </li>
-    {% empty %}
-        <p>No lessons available.</p>
-    {% endfor %}
+  {% for lesson in lessons %}
+  <li>
+    <a href="/courses/lesson/{{ lesson.id }}/">{{ lesson.title }}</a>
+  </li>
+  {% empty %}
+  <li>No lessons available.</li>
+  {% endfor %}
 </ol>
 
 <h3>Enroll in this course</h3>
 
-<form method="POST">
+{% if user.is_authenticated %}
+  <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Enroll</button>
-</form>
+    <button type="submit">Enroll in this course</button>
+  </form>
+{% else %}
+  <p>You must log in to enroll.</p>
+{% endif %}
 
 <h3>Enrolled Students</h3>
 
 <ul>
-    {% for enrollment in enrollments %}
-        <li>{{ enrollment.student_name }}</li>
-    {% empty %}
-        <p>No students enrolled yet.</p>
-    {% endfor %}
+{% for enrollment in enrollments %}
+<li>
+{{ enrollment.user.username }} 
+- enrolled on {{ enrollment.enrolled_at|date:"M d, Y" }}
+</li>
+{% endfor %}
 </ul>
 
 <a href="/courses/">Back to courses</a>
