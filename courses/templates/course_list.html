@@ -1,29 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="container">
+    <div class="courses-header">
+        <h2><i class="fas fa-book-open" style="margin-right: 10px;"></i>Available Courses</h2>
+        <span class="course-count">{{ courses|length }} course{{ courses|length|pluralize }}</span>
+    </div>
 
-<h2>Available Courses</h2>
-
-<ul>
-    {% for course in courses %}
-        <li>
-            <h3>
-                <a href="/courses/{{ course.id }}/">
-                    {{ course.title }}
-                </a>
-            </h3>
-            <p>{{ course.description }}</p>
-            <p>Instructor: {{ course.instructor }}</p>
-            <p>Created: {{ course.created_at|date:"M d, Y" }}</p>
-            <p>Students enrolled: {{ course.student_count }}</p>
-        </li>
-    {% empty %}
-        <p>No courses available.</p>
-    {% endfor %}
-</ul>
-
+    {% if courses %}
+    <div class="course-grid">
+        {% for course in courses %}
+        <div class="course-card">
+            <div class="course-image">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="course-content">
+                <h3 class="course-title">
+                    <a href="/courses/{{ course.id }}/">{{ course.title }}</a>
+                </h3>
+                <p class="course-description">{{ course.description|truncatechars:120 }}</p>
+                
+                <div class="course-meta">
+                    <span><i class="fas fa-chalkboard-teacher"></i> {{ course.instructor }}</span>
+                    <span><i class="fas fa-calendar-alt"></i> {{ course.created_at|date:"M d, Y" }}</span>
+                </div>
+                
+                <div class="course-footer">
+                    <div class="course-stats">
+                        <span><i class="fas fa-users"></i> {{ course.student_count }}</span>
+                        <!-- Podrías añadir número de lecciones si lo tienes -->
+                    </div>
+                    <a href="/courses/{{ course.id }}/" class="btn-view">
+                        View Course <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-book-open"></i>
+        <h3>No courses available yet</h3>
+        <p>Check back soon for new courses!</p>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
-
-    
-  </body>
-</html>

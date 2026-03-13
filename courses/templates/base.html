@@ -1,101 +1,116 @@
 <!doctype html>
-<!-- aspcv201 -->
- {% load static %}
-<html>
-  <head>
+{% load static %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Learning Platform</title>
-    <!-- <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 40px;
-        background-color: #f5f5f5;
-      }
-
-      h1 {
-        color: #333;
-      }
-
-      nav {
-        margin-bottom: 20px;
-      }
-
-      a {
-        color: #0066cc;
-        text-decoration: none;
-      }
-
-      a:hover {
-        text-decoration: underline;
-      }
-
-      ul,
-      ol {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-      }
-
-      form {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-top: 20px;
-      }
-
-      button {
-        padding: 8px 14px;
-        background: #0066cc;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-
-      button:hover {
-        background: #004999;
-      }
-    </style> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  </head>
-  <body>
-    
-    <h1>Online Learning Platform</h1>
-    <p>Browse courses and start learning today.</p>
+</head>
+<body>
+    <!-- Navbar moderna -->
     <nav>
-      <a href="/courses/">Courses</a>
+        <div style="display: flex; align-items: center; gap: 40px;">
+            <h1 class="brand">
+                <a href="/">
+                    <i class="fas fa-graduation-cap"></i> LearnHub
+                </a>
+            </h1>
+            <div style="display: flex; gap: 10px;">
+                <a href="/courses/"><i class="fas fa-book-open"></i> Courses</a>
+                <a href="#features"><i class="fas fa-star"></i> Features</a>
+                <a href="#pricing"><i class="fas fa-tag"></i> Pricing</a>
+            </div>
+        </div>
 
-      {% if user.is_authenticated %}
-
-      <span>Welcome {{ user.username }}</span>
-
-      <form action="/logout/" method="post" style="display: inline">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-      </form>
-
-      {% else %}
-
-      <a href="/login/">Login</a>
-      <a href="/register/">Register</a>
-
-      {% endif %}
+        <div style="display: flex; align-items: center; gap: 15px;">
+            {% if user.is_authenticated %}
+                <span><i class="fas fa-user"></i> {{ user.username }}</span>
+                <form action="/logout/" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </form>
+            {% else %}
+                <a href="/login/"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="/register/"><i class="fas fa-user-plus"></i> Register</a>
+            {% endif %}
+        </div>
     </nav>
 
-    {% if messages %} {% for message in messages %}
-    <div
-      style="
-        background: #d4edda;
-        padding: 10px;
-        margin-bottom: 15px;
-        border-radius: 5px;
-      "
-    >
-      {{ message }}
+    <!-- Mensajes -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div style="background: {% if message.tags == 'success' %}#d4edda{% elif message.tags == 'error' %}#f8d7da{% else %}#d1ecf1{% endif %}; color: {% if message.tags == 'success' %}#155724{% elif message.tags == 'error' %}#721c24{% else %}#0c5460{% endif %};">
+            {{ message }}
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %} {% endif %}
+    {% endif %}
 
-    <hr />
+    <!-- Contenido principal -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 
-    {% block content %} {% endblock %}
-  </body>
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <!-- Columna 1: Marca y descripción -->
+            <div class="footer-col">
+                <h3 class="footer-brand">
+                    <i class="fas fa-graduation-cap"></i> LearnHub
+                </h3>
+                <p class="footer-description">
+                    Empoderando estudiantes con educación de calidad y cursos innovadores.
+                </p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Columna 2: Enlaces rápidos -->
+            <div class="footer-col">
+                <h4 class="footer-title">Enlaces rápidos</h4>
+                <ul class="footer-links">
+                    <li><a href="/courses/">Todos los cursos</a></li>
+                    <li><a href="/about/">Sobre nosotros</a></li>
+                    <li><a href="/contact/">Contacto</a></li>
+                    <li><a href="/faq/">Preguntas frecuentes</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Soporte -->
+            <div class="footer-col">
+                <h4 class="footer-title">Soporte</h4>
+                <ul class="footer-links">
+                    <li><a href="/help/">Centro de ayuda</a></li>
+                    <li><a href="/terms/">Términos de servicio</a></li>
+                    <li><a href="/privacy/">Política de privacidad</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 4: Newsletter -->
+            <div class="footer-col">
+                <h4 class="footer-title">Newsletter</h4>
+                <p class="footer-description">Suscríbete para recibir novedades y ofertas.</p>
+                <form class="newsletter-form" method="post" action="#">
+                    {% csrf_token %}
+                    <input type="email" placeholder="Tu correo electrónico" required>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 LearnHub. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
 </html>
