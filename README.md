@@ -1,5 +1,6 @@
-E-Learning Platform
-Overview
+# E-Learning Platform
+
+# Overview
 This project is a web-based learning management system built to deepen my understanding of full-stack web development with Django. The application allows users to browse courses, view lessons, track their progress, and enroll in courses. It demonstrates key web development concepts such as user authentication, database relationships, dynamic content rendering, and form handling.
 
 The application is designed to be a simple yet functional prototype of an online course platform. Users can sign up, log in, view a list of available courses, see detailed course information including lessons, and enroll. The progress bar on each course page gives a visual indication of how many lessons the user has completed (based on a simplified model).
