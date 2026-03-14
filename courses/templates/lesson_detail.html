@@ -1,69 +1,67 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="container lesson-detail">
-    <!-- Cabecera de la lección -->
-    <div class="lesson-header">
-        <h1 class="lesson-title">{{ lesson.title }}</h1>
-        <div class="lesson-meta">
-            <p>
-                <i class="fas fa-book-open"></i> 
-                <strong>Curso:</strong> 
-                <a href="/courses/{{ lesson.course.id }}/" class="course-link">{{ lesson.course.title }}</a>
-            </p>
-        </div>
+  <!-- Cabecera de la lección -->
+  <div class="lesson-header">
+    <h1 class="lesson-title">{{ lesson.title }}</h1>
+    <div class="lesson-meta">
+      <p>
+        <i class="fas fa-book-open"></i>
+        <strong>Curso:</strong>
+        <a href="/courses/{{ lesson.course.id }}/" class="course-link"
+          >{{ lesson.course.title }}</a
+        >
+      </p>
     </div>
+  </div>
 
-    <!-- Contenido de la lección -->
-    <div class="lesson-content card">
-        {% if lesson.content %}
-            {{ lesson.content|linebreaks }}
-        {% else %}
-            <p class="text-muted">Esta lección no tiene contenido adicional.</p>
-        {% endif %}
-    </div>
+  <!-- Contenido de la lección -->
+  <div class="lesson-content card">
+    {% if lesson.content %} {{ lesson.content|linebreaks }} {% else %}
+    <p class="text-muted">This lesson has no additional content.</p>
+    {% endif %}
+  </div>
 
-    <!-- Barra de progreso (opcional - si tienes datos) -->
-    {% if progress is not None %}
-    <div class="progress-section">
-        <h3>Tu progreso en el curso</h3>
-        <div class="progress-bar-container">
-            <div class="progress-bar-fill" style="width: {{ progress }}%;">
-                <span class="progress-text">{{ progress }}%</span>
-            </div>
-        </div>
+  <!-- Barra de progreso (opcional - si tienes datos) -->
+  {% if progress is not None %}
+  <div class="progress-section">
+    <h3>Your progress</h3>
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" style="--progress: {{ progress }}%;">
+        <span class="progress-text">{{ progress }}%</span>
+      </div>
     </div>
+  </div>
+  {% endif %}
+
+  <!-- Navegación entre lecciones (si tienes datos) -->
+  <div class="lesson-navigation">
+    {% if previous_lesson %}
+    <a href="/courses/lesson/{{ previous_lesson.id }}/" class="btn btn-outline">
+      <i class="fas fa-chevron-left"></i> Lección anterior
+    </a>
     {% endif %}
 
-    <!-- Navegación entre lecciones (si tienes datos) -->
-    <div class="lesson-navigation">
-        {% if previous_lesson %}
-            <a href="/courses/lesson/{{ previous_lesson.id }}/" class="btn btn-outline">
-                <i class="fas fa-chevron-left"></i> Lección anterior
-            </a>
-        {% endif %}
-        
-        <a href="/courses/{{ lesson.course.id }}/" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Volver al curso
-        </a>
-        
-        {% if next_lesson %}
-            <a href="/courses/lesson/{{ next_lesson.id }}/" class="btn btn-primary">
-                Siguiente lección <i class="fas fa-chevron-right"></i>
-            </a>
-        {% endif %}
-    </div>
+    <a href="/courses/{{ lesson.course.id }}/" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to course
+    </a>
 
-    <!-- Botón para marcar como completada (opcional) -->
-    {% if user.is_authenticated %}
-    <div class="completion-section">
-        <form method="post" action="/courses/lesson/{{ lesson.id }}/complete/">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-success">
-                <i class="fas fa-check-circle"></i> Marcar como completada
-            </button>
-        </form>
-    </div>
+    {% if next_lesson %}
+    <a href="/courses/lesson/{{ next_lesson.id }}/" class="btn btn-primary">
+      Siguiente lección <i class="fas fa-chevron-right"></i>
+    </a>
     {% endif %}
+  </div>
+
+  <!-- Botón para marcar como completada (opcional) -->
+  {% if user.is_authenticated %}
+  <div class="completion-section">
+    <form method="post" action="{% url 'complete_lesson' lesson.id %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-success">
+        <i class="fas fa-check-circle"></i> Mark as completed
+      </button>
+    </form>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

@@ -20,6 +20,10 @@ from django.contrib.auth import views as auth_views
 from courses import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import render
+
+def handler404(request, exception):
+    return render(request, '404.html', status=404)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +32,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
     path('register/', views.register, name='register'),
     path('', views.home, name='home'),
+    path('404/', lambda request: render(request, '404.html')),
+    path('lesson/<int:lesson_id>/complete/', views.complete_lesson, name='complete_lesson'),
 ]
 
 if settings.DEBUG:

@@ -104,3 +104,17 @@ def home(request):
     return render(request, 'home.html', {
         'courses': courses
     })
+
+@login_required
+def complete_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    
+    # Aquí tu lógica para marcar como completada
+    # Por ejemplo, crear un registro en LessonCompletion
+    LessonCompletion.objects.get_or_create(
+        user=request.user,
+        lesson=lesson
+    )
+    
+    messages.success(request, f'¡Lesson "{lesson.title}" completed! 🤓')
+    return redirect('lesson_detail', lesson_id=lesson.id)
